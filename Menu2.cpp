@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <windows.h>
+#include <conio.h>
+void gotoxy(int x,int y);
+void cuadro(int x1, int y1, int x2, int y2);
+main()
+{
+	int opcion;
+	do{
+		system("cls");
+		system("color 0E");
+		gotoxy(55,2);
+		printf("MENU PRINCIPAL");
+        printf("\n\t-----------------------------------------------------------------------------------------------------------");
+        printf("\n\t-----------------------------------------------------------------------------------------------------------");
+		printf("\n\t1) Modulo Consultorio\n");
+		printf("\t2) Modulo Recepcion\n");
+		printf("\t3) Modulo Administracion\n");
+		printf("\t0) Salir\n");
+		printf("\n\tSeleccione una opcion: ");
+		scanf("%d",&opcion);
+		
+		
+
+		switch(opcion){
+			
+			case 1:
+				system("cls");
+				// system("MayMen.exe");
+				
+			break;
+			case 2:
+				system("cls");
+				// system("Adivinum.exe");
+				system("pause");
+			break; 
+			case 3:
+				system("cls");
+				// system("WarCoin-GuerradeMonedas.exe");
+				system("pause");
+			break; 
+			case 0:
+			break; 
+			default:
+				system("cls");
+				printf("Opcion Incorrecta\n");
+				system("pause");
+			break;  
+			
+			
+		}
+	}
+	while(opcion!=0);
+ }
+ 
+ void gotoxy(int x,int y){  
+      HANDLE hcon;  
+      hcon = GetStdHandle(STD_OUTPUT_HANDLE);  
+      COORD dwPos;  
+      dwPos.X = x;  
+      dwPos.Y= y;  
+      SetConsoleCursorPosition(hcon,dwPos);  
+}
+void cuadro(int x1, int y1, int x2, int y2){
+    int i;
+    for (i=x1;i<x2;i++){	
+		gotoxy(i,y1);printf("�") ; //linea horizontal superior 
+		gotoxy(i,y2);printf("�") ; //linea horizontal inferior
+    }
+
+    for (i=y1;i<y2;i++){	
+		gotoxy(x1,i);printf("�") ; //linea vertical izquierda
+		gotoxy(x2,i);printf("�") ; //linea vertical derecha
+    }
+    
+    gotoxy(x1,y1); printf("�"); //Esquinas del cuadro
+    gotoxy(x1,y2); printf("�");
+    gotoxy(x2,y1); printf("�");
+    gotoxy(x2,y2); printf("�");
+}
