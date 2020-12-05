@@ -74,7 +74,7 @@ main()
 
 void regVet(usuarios vet)
 {
-    int nn=0,i=0,l=0,p=0;
+    int nn=0,i=0,l=0,p=0,t=0;
     // char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
     char temp;
     bool band=false;
@@ -119,9 +119,9 @@ void regVet(usuarios vet)
         printf("\n%d\n",l);
         if(l>=1)
         {
-            
             for(i=0;i<nn;i++)
             {
+                
                 switch(vet.usuario[i])
                 {
                     case 'A': p++; break;
@@ -149,31 +149,59 @@ void regVet(usuarios vet)
                     case 'W': p++; break;
                     case 'X': p++; break;
                     case 'Y': p++; break;
-                    case 'Z': p++; break;	
+                   case 'Z': p++; break;
                 }
-            } 
-        }else
-        {
-            system("cls");
-            printf("El nombre de usuario es incorrecto,debe tener la primera letra minuscula\n");
-            printf("\n");
-            system("pause");
-            
-        }
-        if(p>=2)
-        {
-            printf("Nombre bien por ahora");
-            printf("\n");
-            system("pause");
+            }
+            if(p>=2)
+            {
+                for(i=0;i<nn;i++)
+                {
+                    switch(vet.usuario[i])
+                    {
+                        case '1': t++; break;
+                        case '2': t++; break;
+                        case '3': t++; break;
+                        case '4': t++; break;
+                        case '5': t++; break;
+                        case '6': t++; break;
+                        case '7': t++; break;
+                        case '8': t++; break;
+                        case '9': t++; break;
+                        case '0': t++; break;	
+                    }
+                }
+                if (t>3)
+                {
+                    system("cls");
+                    printf("El nombre de usuario es incorrecto, debe tener debe tener como maximo 3 digitos\n");
+                    printf("\n");
+                    system("pause");
+                }
+                else
+                {
+                    system("cls");
+                    printf("\nNombre de usuario registrado correctamente\n");
+                    printf("\n");
+                    system("pause");
+                }
+            }
+            else
+            {
+                system("cls");
+                printf("El nombre de usuario es incorrecto, debe tener al menos dos  mayusculas\n");
+                printf("\n");
+                system("pause");
+                
+            }
         }
         else
         {
             system("cls");
-            printf("El nombre de usuario es incorrecto, debe tener al menos dos mayusculas\n");
+            printf("El nombre de usuario es incorrecto, debe empezar con misucula\n");
             printf("\n");
             system("pause");
-            
-        }
-        
+                
+        }  
     }while(!band);
 }
+
