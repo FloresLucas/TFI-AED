@@ -76,7 +76,6 @@ main()
 		}
 	}
 	while(opcion!=0);
-    remove("Asistentes.dat");
 }
 
 void regVet(FILE *User,usuarios vet)
@@ -777,6 +776,16 @@ void regAsist(FILE *User,usuarios asist)
     asist.contrasenia;
     
     fwrite(&asist,sizeof(usuarios),1,User);
+
+    // rewind(User);
+    // fread(&asist,sizeof(usuarios),1,User);
+    // while (!feof(User)) 
+    // {
+    //     printf("Usuario: %s\n",asist.usuario);
+    //     printf("Contrasenia: %s\n",asist.contrasenia);
+    //     printf("\n");
+    //     fread(&asist,sizeof(usuarios),1,User);
+    // }
     printf("Usuario registrado correctamente");
     printf("\n");
     fclose(User);  
