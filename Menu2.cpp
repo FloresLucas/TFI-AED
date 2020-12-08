@@ -28,17 +28,17 @@ main()
 			
 			case 1:
 				system("cls");
-				// system("MayMen.exe");
+				system("MConsultorio.exe");
 				
 			break;
 			case 2:
 				system("cls");
-				// system("Adivinum.exe");
+				system("MRecepción.exe");
 				system("pause");
 			break; 
 			case 3:
 				system("cls");
-				// system("WarCoin-GuerradeMonedas.exe");
+				system("MAdministacion.exe");
 				system("pause");
 			break; 
 			case 0:
