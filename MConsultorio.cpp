@@ -10,6 +10,8 @@ struct usuarios
     char contrasenia[33];
 };
 
+void clave(char auxcont[33]);
+
 main()
 {
     FILE *User;
@@ -42,7 +44,7 @@ main()
             gets(auxus);
             printf("Contrasenia: ");
             _flushall();
-            gets(auxcont);
+            clave(auxcont);
 
             rewind(User);
             fread(&vet,sizeof(usuarios),1,User);
@@ -116,6 +118,40 @@ main()
     }
 }
 
+void clave(char auxcont[33])
+{
+	int i = 0;	/* Indica la posici�n del caracter le�do en la cadena */
+	char caracter;
+	while (caracter = getch()) 
+    {
+		if(caracter  == 13)
+        {
+            auxcont[i] = '\0';
+            break;
+        }
+        else if (caracter == 8)
+            {
+                if (i > 0)
+                {
+                    i--;
+                    printf("\b \b");
+                }
+            }
+            else
+            {
+                if (i < 33)
+                {
+                    printf("*");
+                    auxcont[i] = caracter;
+		            i++;
+                }
+                
+            }
+            
+    }
+        
+}
+	
 
 
 
