@@ -3,7 +3,12 @@
 #include <windows.h>
 #include <conio.h>
 
-
+struct fecha
+{
+	int dia;
+	int mes;
+	int anio;
+};
 struct usuarios
 {
     char usuario[11];
@@ -18,13 +23,33 @@ struct veterinario
     int dniV;
     char telefo[25];
 };
+struct turnos
+{
+    char apeynomM[100];
+    int matri;
+    fecha tur;
+    int dniT;
+    char atencion[380];
+};
+struct mascota
+{
+    char apeynom[100];
+    int dni;
+    char localidad[50];
+    fecha edadNaci;
+    int edad;
+    fecha fec;
+    float peso;
+};
 
 void clave(char auxcont[33]);
+void listarTurnos(turnos turno);
 
 main()
 {
     FILE *User;
     usuarios vet;
+    turnos turno;
 
     User=fopen("Usuarios.dat", "rb");
 
@@ -101,7 +126,8 @@ main()
 		switch(opcion){
 			
 			case 1:
-				// regVet(User,vet);
+				system("cls");
+                listarTurnos(turno);
 				printf("\n");
                 system("pause");
 				
@@ -159,6 +185,47 @@ void clave(char auxcont[33])
             
     }
         
+}
+
+void listarTurnos(turnos turno)
+{
+    FILE *Turno;
+    int r;
+
+    Turno=fopen("Turnos.dat","rb");
+    if(Turno==NULL)
+    {
+        system("CLS");
+        printf("No existe el archivo todavia\n");
+        printf("\nRegistrar previamente un turno en el modulo Recepcion\n");
+        printf("\n\n\t");
+
+    }
+    else
+    {
+        rewind(Turno);
+
+        printf("Mascota \t  D.N.I  \t Fecha\n");
+        fread(&turno,sizeof(turnos),1,Turno);
+        while (!feof(Turno))
+        {
+            printf("\n%s \t %d\t %d/%d/%d\n",turno.apeynomM,turno.dniT,turno.tur.dia,turno.tur.mes,turno.tur.anio);
+            
+            fread(&turno,sizeof(turnos),1,Turno);
+        }
+
+        printf("\nIngrese 1 si desea tomar el turno: ");
+        scanf("%d",&r);
+
+        if (r==1)
+        {
+            system("cls");
+            printf("Turno tomado\n");
+            
+        }
+        
+        
+    }
 }
 	
 
