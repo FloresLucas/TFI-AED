@@ -14,6 +14,7 @@ struct usuarios
 {
     char usuario[11];
     char contrasenia[33];
+    char ApeyNom[60];
 };
 
 struct mascota

@@ -8,7 +8,16 @@ struct usuarios
 {
     char usuario[11];
     char contrasenia[33];
+    char ApeyNom[60];
 };
+struct veterinario
+{
+    char apeynomV[60];
+    int matri;
+    int dniV;
+    char telefo[25];
+};
+
 
 
 void regVet(FILE *User,usuarios vet);
@@ -16,6 +25,7 @@ int sonConsecutivos(int prim, int segund);
 int usercheck(FILE *User,char auxuser[11],usuarios vet);
 int usercheckasi(FILE *User,char auxuser[11],usuarios asist);
 void regAsist(FILE *User,usuarios asist);
+void mostrarVet(FILE *Vet, veterinario reg);
 
 main()
 {
@@ -84,8 +94,9 @@ void regVet(FILE *User,usuarios vet)
     // char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
     char temp;
     bool band=false;
+    FILE *Vet;
+    veterinario reg;
     do{
-        
         system("cls");
         printf("Ingrese un nuevo nombre de usuario: ");
         _flushall();
@@ -418,15 +429,49 @@ void regVet(FILE *User,usuarios vet)
 
     }while(!band1);
     
-    User=fopen("Veteninarios.dat", "a+b");
+    User=fopen("Usuarios.dat", "a+b");
 
     vet.usuario;
     vet.contrasenia;
     
     fwrite(&vet,sizeof(usuarios),1,User);
+
+
     printf("\nUsuario registrado correctamente");
+    printf("\n\n");
+    system("pause");
+    system("cls");
+
+    Vet=fopen("Veterinarios.dat","a+b");
+    
+    printf("Ingrese los datos del Veterinario\n");
+
+    printf("\nIngrese Apellido y Nombre: ");
+    _flushall();
+    gets(reg.apeynomV);
+    _flushall();
+
+    printf("\nIngrese la matricula: ");
+    scanf("%d",&reg.matri);
+
+    printf("\nIngrese el D.N.I: ");
+    scanf("%d",&reg.dniV);
+
+    printf("\nIngrese el telefono: ");
+    _flushall();
+   gets(reg.telefo);
+    _flushall();
+
+
+    fwrite(&reg,sizeof(veterinario),1,Vet);
+
+    fclose(Vet);
+    
+    mostrarVet(Vet,reg);
     printf("\n");
-    fclose(User);    
+    
+
+
 }
 
 void regAsist(FILE *User,usuarios asist)
@@ -775,6 +820,11 @@ void regAsist(FILE *User,usuarios asist)
     asist.usuario;
     asist.contrasenia;
     
+    printf("Ingrese el Apellido y Nombre del usuario %s: ",asist.usuario);
+    _flushall();
+    scanf("%s",asist.ApeyNom);
+    _flushall();
+    
     fwrite(&asist,sizeof(usuarios),1,User);
 
     // rewind(User);
@@ -812,7 +862,7 @@ int sonConsecutivos(int prim, int segund)
 
 int usercheck(FILE *User,char auxuser[11],usuarios vet)                   
 {   
-    User=fopen("Veteninarios.dat", "a+b");
+    User=fopen("Usuarios.dat", "a+b");
     int h; 
     rewind(User);
     fread(&vet,sizeof(usuarios),1,User);
@@ -848,4 +898,35 @@ int usercheckasi(FILE *User,char auxuser[11],usuarios asist)
     fclose(User);
 
     return h;
+}
+
+void mostrarVet(FILE *Vet, veterinario reg)
+{
+    Vet=fopen("Veterinarios.dat","rb");
+    
+    if(Vet==NULL)
+    {
+        system("CLS");
+        printf("\n\nNo existe el archivo todavia\n");
+        printf("\nRegistrar previamente un usuario en el Modulo de Administracion\n");
+        printf("\n\n\t");
+
+    }
+    else
+    {
+        rewind(Vet);
+
+    printf("Apellido y Nombre \t  Matricula  \t D.N.I  \t Telefono\n");
+    fread(&reg,sizeof(veterinario),1,Vet);
+        while (!feof(Vet))
+        {
+            printf("\n%s\t%d\t%d\t%s\n",reg.apeynomV,reg.matri,reg.dniV,reg.telefo);
+            fread(&reg,sizeof(veterinario),1,Vet);
+
+        }
+
+    fclose(Vet);
+    }
+    
+    
 }
