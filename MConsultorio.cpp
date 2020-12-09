@@ -8,6 +8,15 @@ struct usuarios
 {
     char usuario[11];
     char contrasenia[33];
+    char ApeyNom[60];
+};
+
+struct veterinario
+{
+    char apeynomV[60];
+    int matri;
+    int dniV;
+    char telefo[25];
 };
 
 void clave(char auxcont[33]);
@@ -17,7 +26,7 @@ main()
     FILE *User;
     usuarios vet;
 
-    User=fopen("Veteninarios.dat", "rb");
+    User=fopen("Usuarios.dat", "rb");
 
     if(User==NULL)
     {
