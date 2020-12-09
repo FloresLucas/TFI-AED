@@ -218,7 +218,7 @@ void regVet(FILE *User,usuarios vet)
                     else
                     {
                         system("cls");
-                        printf("\nNombre de usuario registrado correctamente\n");
+                        printf("Nombre de usuario registrado correctamente\n");
                         printf("\n");
                         system("pause");
                         band=true;
@@ -400,7 +400,7 @@ void regVet(FILE *User,usuarios vet)
                         else
                         {
                             system("cls");
-                            printf("\nNueva contrasenia registrada correctamente\n");
+                            printf("Nueva contrasenia registrada correctamente\n");
                             printf("\n");
                             band1=true;
                         } 
@@ -602,7 +602,7 @@ void regAsist(FILE *User,usuarios asist)
                     else
                     {
                         system("cls");
-                        printf("\nNombre de usuario registrado correctamente");
+                        printf("Nombre de usuario registrado correctamente\n");
                         printf("\n");
                         system("pause");
                         band=true;
@@ -786,8 +786,9 @@ void regAsist(FILE *User,usuarios asist)
                         else
                         {
                             system("cls");
-                            printf("\nNueva contrasenia registrada correctamente\n");
+                            printf("Nueva contrasenia registrada correctamente\n");
                             printf("\n");
+                            system("pause");
                             band1=true;
                         } 
                         
@@ -819,10 +820,11 @@ void regAsist(FILE *User,usuarios asist)
 
     asist.usuario;
     asist.contrasenia;
-    
+
+    system("cls");
     printf("Ingrese el Apellido y Nombre del usuario %s: ",asist.usuario);
     _flushall();
-    scanf("%s",asist.ApeyNom);
+    gets(asist.ApeyNom);
     _flushall();
     
     fwrite(&asist,sizeof(usuarios),1,User);
@@ -836,6 +838,7 @@ void regAsist(FILE *User,usuarios asist)
     //     printf("\n");
     //     fread(&asist,sizeof(usuarios),1,User);
     // }
+    system("cls");
     printf("Usuario registrado correctamente");
     printf("\n");
     fclose(User);  
