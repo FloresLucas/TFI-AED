@@ -28,10 +28,21 @@ struct mascota
     float peso;
 };
 
+struct turnos
+{
+    char apeynomM[100];
+    int matri;
+    fecha tur;
+    int dniT;
+    char atencion[380];
+};
+
+
 
 void clave(char auxcont[33]);
 void mostrarMascotas(FILE *Mascot, mascota reg);
 void regMascotas(FILE *Mascot,mascota reg);
+void regTurnos(FILE *Mascot, mascota reg);
 
 main()
 {
@@ -81,6 +92,8 @@ main()
                     {
                         system("cls");
                         printf("Se inicio sesion correctamente\n");
+                        system("cls");
+                        printf("Bienvenido %s\n",asist.ApeyNom);
                         system("pause");
                         band=true;
                     }
@@ -121,13 +134,14 @@ main()
 			case 1:
                 system("cls");
 			    regMascotas(Mascot,reg);
+                printf("Mascota registrada\n");
 				printf("\n");
                 system("pause");
 				
 			break;
 			case 2:
 				system("cls");
-				// regAsist(User,asist);
+				regTurnos(Mascot,reg);
 				printf("\n");
 				system("pause");
 			break;
@@ -150,7 +164,6 @@ main()
 	}
 	while(opcion!=0);
     
-    remove("Mascotas.dat");
     }
 
 }
@@ -192,6 +205,7 @@ void clave(char auxcont[33])
 void regMascotas(FILE *Mascot,mascota reg)
 {
     int r;
+    bool band=false;
 
    Mascot=fopen("Mascotas.dat","a+b");
    
@@ -210,12 +224,40 @@ void regMascotas(FILE *Mascot,mascota reg)
 
    printf("\nIngrese fecha de nacimiento: ");
 
-   printf("\nDia: ");
-   scanf("%d",&reg.edadNaci.dia);
-    printf("Mes: ");
-   scanf("%d",&reg.edadNaci.mes);
-    printf("Anio: ");
-   scanf("%d",&reg.edadNaci.anio);
+    do
+    {
+        printf("\nDia: ");
+        scanf("%d",&reg.edadNaci.dia);
+        if (reg.edadNaci.dia>0 && reg.edadNaci.dia<32);
+        {
+            band=true;
+        }
+                    
+    } while (!band);
+
+    band=false;
+    do
+    {
+        printf("Mes: ");
+        scanf("%d",&reg.edadNaci.mes);
+        if (reg.edadNaci.mes>0 && reg.edadNaci.mes<13)
+        {
+            band=true;
+        }
+                    
+    } while (!band);
+                
+    band=false;
+    do
+    {
+        printf("Anio: ");
+        scanf("%d",&reg.edadNaci.anio);
+        if (reg.edadNaci.anio>1000)
+        {
+            band=true;
+        }
+                    
+    } while (!band);
 
     reg.edad = 2020-reg.edadNaci.anio;
 
@@ -226,39 +268,154 @@ void regMascotas(FILE *Mascot,mascota reg)
 
     fclose(Mascot);
 
-    printf("\nQuiere mostrar las mascotas ingresadas: \n");
-    scanf("%d",&r);
-    if (r==1)
-    {
-        mostrarMascotas(Mascot,reg);
-    }
+
+    // printf("\nQuiere mostrar las mascotas ingresadas: \n");
+    // scanf("%d",&r);
+    // if (r==1)
+    // {
+    //     mostrarMascotas(Mascot,reg);
+    // }
     
 }
 
-void mostrarMascotas(FILE *Mascot, mascota reg)
-{
-    Mascot=fopen("Mascotas.dat","rb");
 
-     if(Mascot==NULL)
+void regTurnos(FILE *Mascot, mascota reg)
+{
+    FILE *Turnos;
+    turnos turno;
+    char auxApeNom[100];
+
+    Mascot=fopen("Mascotas.dat","r+b");
+
+    if(Mascot==NULL)
     {
         system("CLS");
-        printf("\n\nNo existe el archivo todavia\n");
-        printf("\nRegistrar previamente un usuario en el Modulo de Administracion\n");
+        printf("No existe el archivo todavia\n");
+        printf("\nRegistrar previamente una mascota en la opcion Registrar Mascota\n");
         printf("\n\n\t");
 
     }
     else
     {
-        system("cls");
-        rewind(Mascot);
-        fread(&reg,sizeof(mascota),1,Mascot);
-        while (!feof(Mascot))
+        bool band=false;
+        bool band1=false;
+        
+        do
         {
-            printf("Apellido y Nombre \t  D.N.I  \t Localidad  \t Edad \t Peso\n");
-            printf("\n%s\t%d\t%s\t%d\t%0.2f",reg.apeynom,reg.dni,reg.localidad,reg.edad,reg.peso);
+           printf("Ingrese el Apellido y Nombre de la mascota a registrar turno: ");
+            _flushall();
+            gets(auxApeNom);
+            _flushall();
+        
+            rewind(Mascot);
             fread(&reg,sizeof(mascota),1,Mascot);
+             Turnos=fopen("Turnos.dat","a+b");
+            while (!feof(Mascot))
+            {
+                if (strcmp(reg.apeynom,auxApeNom)==0)
+                {
+                    strcpy(turno.apeynomM,reg.apeynom);
+                    turno.dniT=reg.dni;
 
-        }
+                    printf("Ingrese la fecha del dia: ");
+                        
+                    do
+                    {
+                        printf("\nDia: ");
+                        scanf("%d",&turno.tur.dia);
+                        if (turno.tur.dia>0 && turno.tur.dia<32);
+                        {
+                            band=true;
+                        }
+                            
+                    } while (!band);
+
+                    band=false;
+                    do
+                    {
+                        printf("Mes: ");
+                        scanf("%d",&turno.tur.mes);
+                        if (turno.tur.mes>0 && turno.tur.mes<13)
+                        {
+                            band=true;
+                        }
+                            
+                    } while (!band);
+                        
+                    band=false;
+                    do
+                    {
+                        printf("Anio: ");
+                        scanf("%d",&turno.tur.anio);
+                        if (turno.tur.anio>1000)
+                        {
+                            band=true;
+                            band1=true;
+                        }
+                            
+                    } while (!band);
+                        
+                    fwrite(&turno,sizeof(turnos),1,Turnos);
+                    }
+
+                fread(&reg,sizeof(mascota),1,Mascot);
+
+                }
+            fclose(Mascot);
+            fclose(Turnos);
+        } while (!band1);
+
+        system("cls");
+        printf("Turno registrado correctamente\n");
     }
     
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void mostrarMascotas(FILE *Mascot, mascota reg)
+// {
+//     Mascot=fopen("Mascotas.dat","rb");
+
+    //  if(Mascot==NULL)
+    // {
+    //     system("CLS");
+    //     printf("\n\nNo existe el archivo todavia\n");
+    //     printf("\nRegistrar previamente un usuario en el Modulo de Administracion\n");
+    //     printf("\n\n\t");
+
+    // }
+//     else
+//     {
+//         system("cls");
+        // rewind(Mascot);
+        // fread(&reg,sizeof(mascota),1,Mascot);
+        // while (!feof(Mascot))
+        // {
+        //     printf("Apellido y Nombre \t  D.N.I  \t Localidad  \t Edad \t Peso\n");
+        //     printf("\n%s\t%d\t%s\t%d\t%0.2f",reg.apeynom,reg.dni,reg.localidad,reg.edad,reg.peso);
+        //     fread(&reg,sizeof(mascota),1,Mascot);
+
+        // }
+//     }
+    
+// }
