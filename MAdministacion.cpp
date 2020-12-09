@@ -25,7 +25,7 @@ int sonConsecutivos(int prim, int segund);
 int usercheck(FILE *User,char auxuser[11],usuarios vet);
 int usercheckasi(FILE *User,char auxuser[11],usuarios asist);
 void regAsist(FILE *User,usuarios asist);
-void mostrarVet(FILE *Vet, veterinario reg);
+// void mostrarVet(FILE *Vet, veterinario reg);
 
 main()
 {
@@ -467,7 +467,7 @@ void regVet(FILE *User,usuarios vet)
 
     fclose(Vet);
     
-    mostrarVet(Vet,reg);
+    // mostrarVet(Vet,reg);
     printf("\n");
     
 
@@ -900,33 +900,33 @@ int usercheckasi(FILE *User,char auxuser[11],usuarios asist)
     return h;
 }
 
-void mostrarVet(FILE *Vet, veterinario reg)
-{
-    Vet=fopen("Veterinarios.dat","rb");
+// void mostrarVet(FILE *Vet, veterinario reg)
+// {
+//     Vet=fopen("Veterinarios.dat","rb");
     
-    if(Vet==NULL)
-    {
-        system("CLS");
-        printf("\n\nNo existe el archivo todavia\n");
-        printf("\nRegistrar previamente un usuario en el Modulo de Administracion\n");
-        printf("\n\n\t");
+//     if(Vet==NULL)
+//     {
+//         system("CLS");
+//         printf("\n\nNo existe el archivo todavia\n");
+//         printf("\nRegistrar previamente un usuario en el Modulo de Administracion\n");
+//         printf("\n\n\t");
 
-    }
-    else
-    {
-        rewind(Vet);
+//     }
+//     else
+//     {
+//         rewind(Vet);
 
-    printf("Apellido y Nombre \t  Matricula  \t D.N.I  \t Telefono\n");
-    fread(&reg,sizeof(veterinario),1,Vet);
-        while (!feof(Vet))
-        {
-            printf("\n%s\t%d\t%d\t%s\n",reg.apeynomV,reg.matri,reg.dniV,reg.telefo);
-            fread(&reg,sizeof(veterinario),1,Vet);
+//     printf("Apellido y Nombre \t  Matricula  \t D.N.I  \t Telefono\n");
+//     fread(&reg,sizeof(veterinario),1,Vet);
+//         while (!feof(Vet))
+//         {
+//             printf("\n%s\t%d\t%d\t%s\n",reg.apeynomV,reg.matri,reg.dniV,reg.telefo);
+//             fread(&reg,sizeof(veterinario),1,Vet);
 
-        }
+//         }
 
-    fclose(Vet);
-    }
+//     fclose(Vet);
+//     }
     
     
-}
+// }
