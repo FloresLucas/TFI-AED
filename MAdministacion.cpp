@@ -24,6 +24,7 @@ struct veterinario
     int matri;
     int dniV;
     char telefo[25];
+    int contA;
 };
 struct turnos
 {
@@ -52,6 +53,7 @@ int usercheck(FILE *Vet,char auxuser[11],veterinario vet);
 int usercheckasi(FILE *User,char auxuser[11],usuarios asist);
 void regAsist(FILE *User,usuarios asist);
 void mostrarAtenciones(turnos turno);
+void ranKatent(veterinario vet);
 // void mostrarVet(FILE *Vet, veterinario vet);
 
 main()
@@ -99,7 +101,7 @@ main()
 			break; 
 			case 4:
 				system("cls"); 
-				// contcred(User,reg);
+				ranKatent(vet);
 			    system("pause");
 			
 			break;
@@ -958,6 +960,45 @@ void mostrarAtenciones(turnos turno)
         fclose(Atent);
     }
 }
+
+
+void ranKatent(veterinario vet)
+{
+    FILE *Vet;
+    FILE *Atent;
+    int aux=0;
+    char s[60];
+   
+    Atent=fopen("Atenciones.dat","rb");
+
+     if(Atent==NULL)
+    {
+        system("CLS");
+        printf("\n\nNo existe el archivo todavia\n");
+        printf("\nRegistrar previamente Atenciones Modulo de Consultorio\n");
+        printf("\n\n\t");
+
+    }
+    else
+    {
+        Vet=fopen("Veterinarios.dat","rb");
+
+        rewind(Vet);
+        fread(&vet,sizeof(veterinario),1,Vet);
+        while (!feof(Vet))
+        {
+            if (vet.contA>aux)
+            {
+                aux=vet.contA;
+                strcpy(s,vet.apeynomV);
+            }
+            fread(&vet,sizeof(veterinario),1,Vet);
+        }
+        printf("El Veterinario con mas Atenciones es: %s\n\n",s);
+        fclose(Vet);
+    }
+}
+
 
 // void mostrarVet(FILE *Vet, veterinario vet)
 // {
