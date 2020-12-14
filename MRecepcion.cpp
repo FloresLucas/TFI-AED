@@ -31,6 +31,7 @@ struct mascota
 struct turnos
 {
     char apeynomM[100];
+    char apeynomVet[100];
     int matri;
     fecha tur;
     int dniT;
@@ -40,18 +41,17 @@ struct turnos
 
 
 void clave(char auxcont[33]);
-void mostrarMascotas(FILE *Mascot, mascota reg);
 void regMascotas(FILE *Mascot,mascota reg);
 void regTurnos(FILE *Mascot, mascota reg);
+void mostrarAtenciones(turnos turno);
 
 main()
 {
     FILE *User;
-    usuarios asist;
-    
     FILE *Mascot;
-
+    usuarios asist;
     mascota reg;
+    turnos turno;
 
     User=fopen("Asistentes.dat", "rb");
 
@@ -147,7 +147,7 @@ main()
 			break;
             case 3:
                 system("cls");
-				// regAsist(User,asist);
+				mostrarAtenciones(turno);
 				printf("\n");
 				system("pause");
             break;  
@@ -373,7 +373,40 @@ void regTurnos(FILE *Mascot, mascota reg)
 }
 
 
+void mostrarAtenciones(turnos turno)
+{
+   FILE *Atent;
+   
+    Atent=fopen("Atenciones.dat","rb");
 
+     if(Atent==NULL)
+    {
+        system("CLS");
+        printf("\n\nNo existe el archivo todavia\n");
+        printf("\nRegistrar previamente Atenciones Modulo de Consultorio\n");
+        printf("\n\n\t");
+
+    }
+    else
+    {
+        system("cls");
+        rewind(Atent);
+        fread(&turno,sizeof(turnos),1,Atent);
+        while (!feof(Atent))
+        {
+            printf("\tApellido y Nombre de la Mascota: %s\n",turno.apeynomM);
+            printf("\tD.N.I: %d\n",turno.dniT);
+            printf("\tApellido y Nombre del Veterinario: %s\n",turno.apeynomVet);
+            printf("\tMatricula: %d\n",turno.matri);
+            printf("\tFecha: %d/%d/%d\n",turno.tur.dia,turno.tur.mes,turno.tur.anio);
+            printf("\tAtencion:\n\t%s",turno.atencion);
+            printf("\n\n");
+            fread(&turno,sizeof(turnos),1,Atent);
+        }
+
+        fclose(Atent);
+    }
+}
 
 
 
@@ -396,26 +429,26 @@ void regTurnos(FILE *Mascot, mascota reg)
 // {
 //     Mascot=fopen("Mascotas.dat","rb");
 
-    //  if(Mascot==NULL)
-    // {
-    //     system("CLS");
-    //     printf("\n\nNo existe el archivo todavia\n");
-    //     printf("\nRegistrar previamente un usuario en el Modulo de Administracion\n");
-    //     printf("\n\n\t");
+//      if(Mascot==NULL)
+//     {
+//         system("CLS");
+//         printf("\n\nNo existe el archivo todavia\n");
+//         printf("\nRegistrar previamente un usuario en el Modulo de Administracion\n");
+//         printf("\n\n\t");
 
-    // }
+//     }
 //     else
 //     {
 //         system("cls");
-        // rewind(Mascot);
-        // fread(&reg,sizeof(mascota),1,Mascot);
-        // while (!feof(Mascot))
-        // {
-        //     printf("Apellido y Nombre \t  D.N.I  \t Localidad  \t Edad \t Peso\n");
-        //     printf("\n%s\t%d\t%s\t%d\t%0.2f",reg.apeynom,reg.dni,reg.localidad,reg.edad,reg.peso);
-        //     fread(&reg,sizeof(mascota),1,Mascot);
+//         rewind(Mascot);
+//         fread(&reg,sizeof(mascota),1,Mascot);
+//         while (!feof(Mascot))
+//         {
+//             printf("Apellido y Nombre \t  D.N.I  \t Localidad  \t Edad \t Peso\n");
+//             printf("\n%s\t%d\t%s\t%d\t%0.2f",reg.apeynom,reg.dni,reg.localidad,reg.edad,reg.peso);
+//             fread(&reg,sizeof(mascota),1,Mascot);
 
-        // }
+//         }
 //     }
     
 // }
