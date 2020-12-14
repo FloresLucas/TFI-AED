@@ -33,20 +33,20 @@ main()
 			break;
 			case 2:
 				system("cls");
-				system("MRecepción.exe");
-				system("pause");
+				system("MRecepcion.exe");
+
 			break; 
 			case 3:
 				system("cls");
 				system("MAdministacion.exe");
-				system("pause");
+				
 			break; 
 			case 0:
 			break; 
 			default:
 				system("cls");
 				printf("Opcion Incorrecta\n");
-				system("pause");
+				
 			break;  
 			
 			
