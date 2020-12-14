@@ -17,6 +17,7 @@ struct veterinario
     int matri;
     int dniV;
     char telefo[25];
+    int contA;
 };
 struct turnos
 {
@@ -298,7 +299,7 @@ void regEV(turnos turno,char auxus[11])
         }
         fclose(Mascot);
 
-        Vet=fopen("Veterinarios.dat","rb");
+        Vet=fopen("Veterinarios.dat","a+b");
 
         rewind(Vet);
         fread(&vet,sizeof(veterinario),1,Vet);
@@ -307,6 +308,7 @@ void regEV(turnos turno,char auxus[11])
             if (strcmp(vet.usuario,auxus)==0)
             {
                 turno.matri=vet.matri;
+                vet.contA++;
                 strcpy(turno.apeynomVet,vet.apeynomV);
             }
             
