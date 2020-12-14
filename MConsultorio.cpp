@@ -9,15 +9,10 @@ struct fecha
 	int mes;
 	int anio;
 };
-struct usuarios
+struct veterinario
 {
     char usuario[11];
     char contrasenia[33];
-    char ApeyNom[60];
-};
-
-struct veterinario
-{
     char apeynomV[60];
     int matri;
     int dniV;
@@ -26,6 +21,7 @@ struct veterinario
 struct turnos
 {
     char apeynomM[100];
+    char apeynomVet[100];
     int matri;
     fecha tur;
     int dniT;
@@ -44,16 +40,21 @@ struct mascota
 
 void clave(char auxcont[33]);
 void listarTurnos(turnos turno);
+void regEV(turnos turno,char auxus[11]);
+// void pasarTurnos(FILE *Turno,turnos turno);
+void mostrarAtenciones(FILE *Atent,turnos turno);
+// void mostrarMascotas(FILE *Mascot, char s[60]);
 
 main()
 {
-    FILE *User;
-    usuarios vet;
+    FILE *Vet;
+    veterinario vet;
     turnos turno;
+    char s[60];
 
-    User=fopen("Usuarios.dat", "rb");
+   Vet=fopen("Veterinarios.dat", "rb");
 
-    if(User==NULL)
+    if(Vet==NULL)
     {
         system("CLS");
         printf("\n\nNo existe el archivo todavia\n");
@@ -79,23 +80,25 @@ main()
             printf("Contrasenia: ");
             _flushall();
             clave(auxcont);
-
-            rewind(User);
-            fread(&vet,sizeof(usuarios),1,User);
-            while (!feof(User))
+            
+            rewind(Vet);
+            fread(&vet,sizeof(veterinario),1,Vet);
+            while (!feof(Vet))
             {
                 if (strcmp(vet.usuario,auxus)==0)
                 {
                     if (strcmp(vet.contrasenia,auxcont)==0)
                     {
                         system("cls");
-                        printf("Se inicio sesion correctamente\n");
+                        printf("Bienvenido %s\n",vet.apeynomV);
+                        printf("\n");
                         system("pause");
                         band=true;
+
                     }
                 }
                 
-                fread(&vet,sizeof(usuarios),1,User);
+                fread(&vet,sizeof(veterinario),1,Vet);
             }
             if (band==false)
             {
@@ -106,8 +109,9 @@ main()
             }
             else
             {
-            } 
-            } while (!band);
+            }
+            
+        } while (!band);
 
         
         int opcion;
@@ -134,7 +138,7 @@ main()
 			break;
 			case 2:
 				system("cls");
-				// regAsist(User,asist);
+				regEV(turno,auxus);
 				printf("\n");
 				system("pause");
 			break;  
@@ -150,8 +154,292 @@ main()
 		}
 	}
 	while(opcion!=0);
+
+    remove("Tempfile.dat");
+
     }
 }
+
+
+void listarTurnos(turnos turno)
+{
+    FILE *Turno;
+    FILE *fileAux;
+    FILE *EV;
+    
+
+    Turno=fopen("Turnos.dat","rb");
+    if(Turno==NULL)
+    {
+        system("CLS");
+        printf("No existe el archivo todavia\n");
+        printf("\nRegistrar previamente un turno en el modulo Recepcion\n");
+        printf("\n\n\t");
+
+    }
+    else
+    {
+        char s[60];
+        int r;
+        rewind(Turno);
+
+        printf("Mascota \t  D.N.I  \t Fecha\n");
+        fread(&turno,sizeof(turnos),1,Turno);
+        while (!feof(Turno))
+        {
+            printf("\n%s \t %d\t %d/%d/%d\n",turno.apeynomM,turno.dniT,turno.tur.dia,turno.tur.mes,turno.tur.anio);
+            
+            fread(&turno,sizeof(turnos),1,Turno);
+        }
+
+        printf("\nIngrese el apellido y nombre a la mascota que atendera: ");
+        _flushall();
+        gets(s);
+        _flushall();
+        
+        bool band=false;
+        do
+        {
+            rewind(Turno);
+            fread(&turno,sizeof(turnos),1,Turno);
+            while (!feof(Turno))
+            {
+                if (strcmp(turno.apeynomM,s)==0)
+                {
+                    band=true;
+                }
+
+                fread(&turno,sizeof(turnos),1,Turno);
+            }
+
+            if (r=!1)
+            {
+                system("cls");
+                printf("El apellido y nombre ingresado no se encuentra en la lista\n");
+                system("pause");
+            }
+            
+
+        } while (!band);
+        
+        fileAux=fopen("Tempfile.dat", "w+b");
+        EV=fopen("Evolucion.dat","w+b");
+         
+        rewind(Turno);
+        
+        fread(&turno,sizeof(turnos),1,Turno);
+        while (!feof(Turno))
+        {
+            if(strcmp(turno.apeynomM,s)==0)
+            {
+                fwrite(&turno,sizeof(turnos),1,EV);
+            }
+            else
+            {
+                fwrite(&turno,sizeof(turnos),1,fileAux);
+            }
+            
+            fread(&turno,sizeof(turnos),1,Turno);
+        }
+
+            fclose(Turno);
+            fclose(fileAux);
+            fclose(EV);
+    }
+}
+
+
+void regEV(turnos turno,char auxus[11])
+{
+    FILE *EV;
+    FILE *Atent;
+    FILE *Mascot;
+    FILE *Vet;
+    mascota reg;
+
+    veterinario vet;
+    char s[60];
+    EV=fopen("Evolucion.dat","rb");
+
+    if(EV==NULL)
+    {
+        system("CLS");
+        printf("No existe el archivo todavia\n");
+        printf("\nNo se encuentra ningun turno seleccionado para realziar\n");
+        printf("\n\n\t");
+    }
+    else
+    {
+        bool band=false;
+        bool band1=false;
+        
+        rewind(EV);
+        fread(&turno,sizeof(turnos),1,EV);
+        strcpy(s,turno.apeynomM);
+        fclose(EV);
+
+        
+        mostrarMascotas(Mascot,s);
+
+        Atent=fopen("Atenciones.dat","a+b");
+
+        Mascot=fopen("Mascotas.dat","rb");
+
+        rewind(Mascot);
+        fread(&reg,sizeof(mascota),1,Mascot);
+        while (!feof(Mascot))
+        {
+            if (strcmp(reg.apeynom,s)==0)
+            { 
+                turno.dniT=reg.dni;
+                strcpy(turno.apeynomM,reg.apeynom);
+            }
+            fread(&reg,sizeof(mascota),1,Mascot);
+        }
+        fclose(Mascot);
+
+        Vet=fopen("Veterinarios.dat","rb");
+
+        rewind(Vet);
+        fread(&vet,sizeof(veterinario),1,Vet);
+        while (!feof(Vet))
+        {
+            if (strcmp(vet.usuario,auxus)==0)
+            {
+                turno.matri=vet.matri;
+                strcpy(turno.apeynomVet,vet.apeynomV);
+            }
+            
+            fread(&vet,sizeof(veterinario),1,Vet);
+        }
+        fclose(Vet);
+
+        printf("\nIngrese la fecha de la Atencion: ");
+                        
+        do
+        {
+            printf("\nDia: ");
+            scanf("%d",&turno.tur.dia);
+            if (turno.tur.dia>0 && turno.tur.dia<32);
+            {
+                band=true;
+            }
+                            
+        } while (!band);
+
+        band=false;
+        do
+        {
+            printf("Mes: ");
+            scanf("%d",&turno.tur.mes);
+            if (turno.tur.mes>0 && turno.tur.mes<13)
+            {
+                band=true;
+            }
+                            
+        } while (!band);
+                        
+        band=false;
+        do
+        {
+            printf("Anio: ");
+            scanf("%d",&turno.tur.anio);
+            if (turno.tur.anio>1000)
+                {
+                    band=true;
+                }
+                            
+        } while (!band);
+                        
+        printf("Realize la evolucion de la Mascota: ");
+        _flushall();
+        gets(turno.atencion);
+        _flushall();
+
+        fwrite(&turno,sizeof(turnos),1,Atent);
+
+        fclose(Atent);
+
+        // mostrarAtenciones(Atent,turno);
+
+        remove("Turnos.dat");
+        rename("Tempfile.dat","Turnos.dat");
+        remove("Evolucion.dat");
+    }
+    
+
+}
+
+void mostrarMascotas(FILE *Mascot, char s[60])
+{
+    Mascot=fopen("Mascotas.dat","rb");
+
+    mascota reg;
+
+     if(Mascot==NULL)
+    {
+        system("CLS");
+        printf("\n\nNo existe el archivo todavia\n");
+        printf("\nRegistrar previamente un usuario en el Modulo de Administracion\n");
+        printf("\n\n\t");
+
+    }
+    else
+    {
+        system("cls");
+        rewind(Mascot);
+        fread(&reg,sizeof(mascota),1,Mascot);
+       printf("Apellido y Nombre\tD.N.I\tLocalidad\tEdad\tPeso\n");
+        while (!feof(Mascot))
+        {
+            if (strcmp(reg.apeynom,s)==0)
+            {
+                printf("\n%s\t%d\t%s\t%d\t%0.2f\n",reg.apeynom,reg.dni,reg.localidad,reg.edad,reg.peso);
+            }
+            
+            fread(&reg,sizeof(mascota),1,Mascot);
+        }
+    }
+    
+}
+
+
+// void mostrarAtenciones(FILE *Atent,turnos turno)
+// {
+//     Atent=fopen("Atenciones.dat","rb");
+
+//      if(Atent==NULL)
+//     {
+//         system("CLS");
+//         printf("\n\nNo existe el archivo todavia\n");
+//         printf("\nRegistrar previamente un Turno en el Modulo de Recepcion\n");
+//         printf("\n\n\t");
+
+//     }
+//     else
+//     {
+//         system("cls");
+//         rewind(Atent);
+//         fread(&turno,sizeof(turnos),1,Atent);
+//         while (!feof(Atent))
+//         {
+//             printf("\tApellido y Nombre de la Mascota: %s\n",turno.apeynomM);
+//             printf("\tD.N.I: %d\n",turno.dniT);
+//             printf("\tApellido y Nombre del Veterinario: %s\n",turno.apeynomVet);
+//             printf("\tMatricula: %d\n",turno.matri);
+//             printf("\tAtencion:\n%s",turno.atencion);
+//             printf("\n\n");
+//         fread(&turno,sizeof(turnos),1,Atent);
+//         }
+
+//         fclose(Atent);
+//     }
+// }
+
+
+
+
+
 
 void clave(char auxcont[33])
 {
@@ -187,61 +475,3 @@ void clave(char auxcont[33])
         
 }
 
-void listarTurnos(turnos turno)
-{
-    FILE *Turno;
-    int r;
-
-    Turno=fopen("Turnos.dat","rb");
-    if(Turno==NULL)
-    {
-        system("CLS");
-        printf("No existe el archivo todavia\n");
-        printf("\nRegistrar previamente un turno en el modulo Recepcion\n");
-        printf("\n\n\t");
-
-    }
-    else
-    {
-        rewind(Turno);
-
-        printf("Mascota \t  D.N.I  \t Fecha\n");
-        fread(&turno,sizeof(turnos),1,Turno);
-        while (!feof(Turno))
-        {
-            printf("\n%s \t %d\t %d/%d/%d\n",turno.apeynomM,turno.dniT,turno.tur.dia,turno.tur.mes,turno.tur.anio);
-            
-            fread(&turno,sizeof(turnos),1,Turno);
-        }
-
-        printf("\nIngrese 1 si desea tomar el turno: ");
-        scanf("%d",&r);
-
-        if (r==1)
-        {
-            system("cls");
-            printf("Turno tomado\n");
-            
-        }
-        
-        
-    }
-}
-	
-
-
-
-
-
-
-
-    //     rewind(User);
-    //     fread(&vet,sizeof(usuarios),1,User);
-    //     while (!feof(User)) 
-    //     {
-    //         printf("Usuario: %s\n",vet.usuario);
-    //         printf("Contrasenia: %s\n",vet.contrasenia);
-    //         printf("\n");
-    //         fread(&vet,sizeof(usuarios),1,User);
-    //     }
-    // }
