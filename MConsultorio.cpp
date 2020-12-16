@@ -73,18 +73,18 @@ main()
         char auxus[11];
         char auxcont[33];
         bool band=false;
-        do
+        do //Validacion del Nombre de Usuario y su Contraseña esten correctos
         {
             printf("Usuario: ");
             _flushall();
             gets(auxus);
             printf("Contrasenia: ");
             _flushall();
-            clave(auxcont);
+            clave(auxcont); //Funcion para remplazar los caracteres escritos por el usuario por asteriscos
             
             rewind(Vet);
             fread(&vet,sizeof(veterinario),1,Vet);
-            while (!feof(Vet))
+            while (!feof(Vet)) 
             {
                 if (strcmp(vet.usuario,auxus)==0)
                 {
@@ -132,14 +132,14 @@ main()
 			
 			case 1:
 				system("cls");
-                listarTurnos(turno);
+                listarTurnos(turno); //Lista los turnos registrados, tambien funciona para elegir el turno a realizar
 				printf("\n");
                 system("pause");
 				
 			break;
 			case 2:
 				system("cls");
-				regEV(turno,auxus);
+				regEV(turno,auxus); //Registra la evolucion de la mascota, marcada por el turno elegido
 				printf("\n");
 				system("pause");
 			break;  
@@ -179,7 +179,7 @@ void listarTurnos(turnos turno)
         printf("\n\n\t");
 
     }
-    else
+    else //Verifica que el archivo no se encuentre vacio
     {
         fseek (Turno, 0, SEEK_END);
         int size = sizeof(Turno);
@@ -199,7 +199,7 @@ void listarTurnos(turnos turno)
             
             printf("Mascota \t  D.N.I  \t Fecha\n");
             fread(&turno,sizeof(turnos),1,Turno);
-            while (!feof(Turno))
+            while (!feof(Turno)) //Lista los turnos registrados
             {
                 printf("\n%s \t %d\t %d/%d/%d\n",turno.apeynomM,turno.dniT,turno.tur.dia,turno.tur.mes,turno.tur.anio);
                 
@@ -218,7 +218,7 @@ void listarTurnos(turnos turno)
             
             
             } while (!band2);
-            
+
             
             if (p==2)
             {
@@ -238,7 +238,7 @@ void listarTurnos(turnos turno)
                     fread(&turno,sizeof(turnos),1,Turno);
                     while (!feof(Turno))
                     {
-                        if (strcmp(turno.apeynomM,s)==0)
+                        if (strcmp(turno.apeynomM,s)==0) //Compara el nombre ingresado con el nombre de la msacota
                         {
                             band=true;
                         }
@@ -261,7 +261,7 @@ void listarTurnos(turnos turno)
                 
                 rewind(Turno);
                 
-                fread(&turno,sizeof(turnos),1,Turno);
+                fread(&turno,sizeof(turnos),1,Turno); //Mueve el turno selecionado a otro archivo y los demas al nuevo archivo
                 while (!feof(Turno))
                 {
                     if(strcmp(turno.apeynomM,s)==0)
@@ -315,14 +315,14 @@ void regEV(turnos turno,char auxus[11])
         fclose(EV);
 
         
-        mostrarMascotas(Mascot,s);
+        mostrarMascotas(Mascot,s); //Muestra los datos de la mascota a realizar la Evolucion
 
         Atent=fopen("Atenciones.dat","a+b");
 
         Mascot=fopen("Mascotas.dat","rb");
 
         rewind(Mascot);
-        fread(&reg,sizeof(mascota),1,Mascot);
+        fread(&reg,sizeof(mascota),1,Mascot); 
         while (!feof(Mascot))
         {
             if (strcmp(reg.apeynom,s)==0)
@@ -393,7 +393,7 @@ void regEV(turnos turno,char auxus[11])
         gets(turno.atencion);
         _flushall();
 
-        fwrite(&turno,sizeof(turnos),1,Atent);
+        fwrite(&turno,sizeof(turnos),1,Atent); //Registra todos los datos ingresados previamente en el archivo de Atenciones
 
         fclose(Atent);
 
