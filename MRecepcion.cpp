@@ -73,14 +73,14 @@ main()
         char auxus[11];
         char auxcont[33];
         bool band=false;
-        do
+        do  // Validacion del Nombre de Usuario y su Contraseña esten correctos
         {
             printf("Usuario: ");
             _flushall();
             gets(auxus);
             printf("Contrasenia: ");
             _flushall();
-            clave(auxcont);
+            clave(auxcont); //Funcion para remplazar los caracteres escritos por el usuario por asteriscos
 
             rewind(User);
             fread(&asist,sizeof(usuarios),1,User);
@@ -134,7 +134,7 @@ main()
 			
 			case 1:
                 system("cls");
-			    regMascotas(Mascot,reg);
+			    regMascotas(Mascot,reg); //Funcion para Registrar una Mascota
                 printf("Mascota registrada\n");
 				printf("\n");
                 system("pause");
@@ -142,13 +142,13 @@ main()
 			break;
 			case 2:
 				system("cls");
-				regTurnos(Mascot,reg);
+				regTurnos(Mascot,reg); //Funcion para registrar un Turno
 				printf("\n");
 				system("pause");
 			break;
             case 3:
                 system("cls");
-				mostrarAtenciones(turno);
+				mostrarAtenciones(turno); //Funcion para mostrar las atenciones realizadas
 				printf("\n");
 				system("pause");
             break;  
@@ -171,7 +171,7 @@ main()
 
 void clave(char auxcont[33])
 {
-	int i = 0;	/* Indica la posici�n del caracter le�do en la cadena */
+	int i = 0;
 	char caracter;
 	while (caracter = getch()) 
     {
@@ -260,7 +260,7 @@ void regMascotas(FILE *Mascot,mascota reg)
                     
     } while (!band);
 
-    reg.edad = 2020-reg.edadNaci.anio;
+    reg.edad = 2020-reg.edadNaci.anio; //Calculo para saber la edad de la mascota ingresada
 
     printf("Peso de la Mascota: ");
     scanf("%f",&reg.peso);
@@ -313,7 +313,7 @@ void regTurnos(FILE *Mascot, mascota reg)
              Turnos=fopen("Turnos.dat","a+b");
             while (!feof(Mascot))
             {
-                if (strcmp(reg.apeynom,auxApeNom)==0)
+                if (strcmp(reg.apeynom,auxApeNom)==0) //Compara el Apellido y nombre ingresados con los  registrados de las Mascotas
                 {
                     strcpy(turno.apeynomM,reg.apeynom);
                     turno.dniT=reg.dni;
