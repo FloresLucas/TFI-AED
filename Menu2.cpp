@@ -3,7 +3,7 @@
 #include <time.h>
 #include <windows.h>
 #include <conio.h>
-void gotoxy(int x,int y);
+void gotoxy(int x,int y); // Funcion para poder mover el Titulo en una posicion especifica//
 void cuadro(int x1, int y1, int x2, int y2);
 main()
 {
@@ -28,17 +28,17 @@ main()
 			
 			case 1:
 				system("cls");
-				system("MConsultorio.exe");
+				system("MConsultorio.exe");//Llama al programa del Modulo de Consuktorio//
 				
 			break;
 			case 2:
 				system("cls");
-				system("MRecepcion.exe");
+				system("MRecepcion.exe");//Llama al programa del Modulo de Recepcion//
 
 			break; 
 			case 3:
 				system("cls");
-				system("MAdministacion.exe");
+				system("MAdministacion.exe");//Llama al programa del Modulo de Administracion//
 				
 			break; 
 			case 0:
