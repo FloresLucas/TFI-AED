@@ -82,26 +82,26 @@ main()
 		switch(opcion){
             
 			case 1:
-				regVet(Vet,vet);
+				regVet(Vet,vet); //Funcion para registrar a un Veterinario encargados del Modulo de Consultorio 
 				printf("\n");
                 system("pause");
 				
 			break;
 			case 2:
 				system("cls");
-				regAsist(User,asist);
+				regAsist(User,asist); //Funcion para registrar a un asistente encargados del Modulo de Recpcion
 				printf("\n");
 				system("pause");
 			break; 
 			case 3:
 				system("cls");
-				mostrarAtenciones(turno);
+				mostrarAtenciones(turno); //Funcion pra mostrar las atenciones registradas
 				printf("\n");
 				system("pause");
 			break; 
 			case 4:
 				system("cls"); 
-				ranKatent(vet);
+				ranKatent(vet); //Funcion que muestra al Veterinario con mas atenciones
 			    system("pause");
 			
 			break;
@@ -122,7 +122,6 @@ main()
 void regVet(FILE *Vet,veterinario vet)
 {
     int nn=0,i=0,l=0,p=0,t=0;
-    // char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
     char temp;
     bool band=false;
     do{
@@ -137,7 +136,7 @@ void regVet(FILE *Vet,veterinario vet)
     if (nn>=6 && nn<=10)
     {
         l=0;
-        switch(vet.usuario[0])
+        switch(vet.usuario[0]) // Veficica que el usuario empiece con minuscula 
             {
                 case 'a': l++; break;
                 case 'e': l++; break;
@@ -174,7 +173,7 @@ void regVet(FILE *Vet,veterinario vet)
             for(i=0;i<nn;i++)
             {
                 
-                switch(vet.usuario[i])
+                switch(vet.usuario[i]) // Verifica que tenga al menos dos mayusculas
                 {
                     case 'A': p++; break;
                     case 'E': p++; break;
@@ -209,7 +208,7 @@ void regVet(FILE *Vet,veterinario vet)
                 t=0;
                 for(i=0;i<nn;i++)
                 {
-                    switch(vet.usuario[i])
+                    switch(vet.usuario[i]) //Verifica que no tenga 3 numero seguidos
                     {
                         case '1': t++; break;
                         case '2': t++; break;
@@ -299,7 +298,7 @@ void regVet(FILE *Vet,veterinario vet)
             f=0;
             for(i=0;i<nn;i++)
             {
-                switch(vet.contrasenia[i])
+                switch(vet.contrasenia[i]) //Verfica quenotenga 3 numeros seguidos
                 {
                     case '1': f++; break;
                     case '2': f++; break;
@@ -340,7 +339,7 @@ void regVet(FILE *Vet,veterinario vet)
                     
                     for(i=0;i<nn;i++)
                     {
-                        switch(vet.contrasenia[i])
+                        switch(vet.contrasenia[i]) //Verifica que no tenga otros caracteres mas que los listados
                         {
                             case '1': o++; break;
                             case '2': o++; break;
@@ -422,7 +421,7 @@ void regVet(FILE *Vet,veterinario vet)
                             {
                                 int prim = vet.contrasenia[i];
                                 int segund = vet.contrasenia[i+1];
-                                int dir=sonConsecutivos(prim,segund);
+                                int dir=sonConsecutivos(prim,segund);  //Verifica que los carateres ingresados no sean consiguiente
                                 if (dir==1)
                                 {
                                     z++;
@@ -474,7 +473,7 @@ void regVet(FILE *Vet,veterinario vet)
     vet.usuario;
     vet.contrasenia;
 
-    printf("\nUsuario veterinario registrado correctamente");
+    printf("\nUsuario veterinario registrado correctamente"); //Se ingresan los datos de los veterinarios a continuacion
     printf("\n\n");
     system("pause");
     system("cls");
@@ -886,7 +885,7 @@ int sonConsecutivos(int prim, int segund)
     }
 }
 
-int usercheck(FILE *Vet,char auxuser[11],veterinario vet)                   
+int usercheck(FILE *Vet,char auxuser[11],veterinario vet) //CHekea que el nombre de usuario de un Veterinario no se encuentre tomado                   
 {   
     Vet=fopen("Vetererinario", "a+b");
     int h; 
@@ -906,7 +905,7 @@ int usercheck(FILE *Vet,char auxuser[11],veterinario vet)
     return h;
 } 
 
-int usercheckasi(FILE *User,char auxuser[11],usuarios asist)                   
+int usercheckasi(FILE *User,char auxuser[11],usuarios asist) //Chekea que el nombre de usuario de un Asistente no se encuentre tomado                  
 {   
     User=fopen("Asistentes.dat", "a+b");
     int h; 
