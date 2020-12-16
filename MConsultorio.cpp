@@ -43,8 +43,8 @@ void clave(char auxcont[33]);
 void listarTurnos(turnos turno);
 void regEV(turnos turno,char auxus[11]);
 // void pasarTurnos(FILE *Turno,turnos turno);
-void mostrarAtenciones(FILE *Atent,turnos turno);
-// void mostrarMascotas(FILE *Mascot, char s[60]);
+// void mostrarAtenciones(FILE *Atent,turnos turno);
+void mostrarMascotas(FILE *Mascot, char s[60]);
 
 main()
 {
@@ -170,6 +170,7 @@ void listarTurnos(turnos turno)
     
 
     Turno=fopen("Turnos.dat","rb");
+    
     if(Turno==NULL)
     {
         system("CLS");
@@ -180,72 +181,106 @@ void listarTurnos(turnos turno)
     }
     else
     {
-        char s[60];
-        int r;
-        rewind(Turno);
+        fseek (Turno, 0, SEEK_END);
+        int size = sizeof(Turno);
 
-        printf("Mascota \t  D.N.I  \t Fecha\n");
-        fread(&turno,sizeof(turnos),1,Turno);
-        while (!feof(Turno))
-        {
-            printf("\n%s \t %d\t %d/%d/%d\n",turno.apeynomM,turno.dniT,turno.tur.dia,turno.tur.mes,turno.tur.anio);
-            
-            fread(&turno,sizeof(turnos),1,Turno);
-        }
-
-        printf("\nIngrese el apellido y nombre a la mascota que atendera: ");
-        _flushall();
-        gets(s);
-        _flushall();
         
-        bool band=false;
-        do
+        if (0 == size) 
         {
+            printf("El Archivo se encuentra vacio, ingresar un turno desde el Modulo de Recepcion\n");
+        }
+        else
+        {
+            bool band2=false;
+            char s[60];
+            int r,p;
             rewind(Turno);
+
+            
+            printf("Mascota \t  D.N.I  \t Fecha\n");
             fread(&turno,sizeof(turnos),1,Turno);
             while (!feof(Turno))
             {
-                if (strcmp(turno.apeynomM,s)==0)
-                {
-                    band=true;
-                }
-
+                printf("\n%s \t %d\t %d/%d/%d\n",turno.apeynomM,turno.dniT,turno.tur.dia,turno.tur.mes,turno.tur.anio);
+                
                 fread(&turno,sizeof(turnos),1,Turno);
             }
 
-            if (r=!1)
+            do
             {
-                system("cls");
-                printf("El apellido y nombre ingresado no se encuentra en la lista\n");
-                system("pause");
-            }
+                printf("\nDesea realizar un turno, Si (1), No (2): ");
+                scanf("%d",&p);
+                if (p==1 || p==2)
+                {
+                    band2=true;
+                }
+                
             
-
-        } while (!band);
-        
-        fileAux=fopen("Tempfile.dat", "w+b");
-        EV=fopen("Evolucion.dat","w+b");
-         
-        rewind(Turno);
-        
-        fread(&turno,sizeof(turnos),1,Turno);
-        while (!feof(Turno))
-        {
-            if(strcmp(turno.apeynomM,s)==0)
+            
+            } while (!band2);
+            
+            
+            if (p==2)
             {
-                fwrite(&turno,sizeof(turnos),1,EV);
+
             }
             else
             {
-                fwrite(&turno,sizeof(turnos),1,fileAux);
-            }
-            
-            fread(&turno,sizeof(turnos),1,Turno);
-        }
+                printf("\nIngrese el apellido y nombre a la mascota que atendera: ");
+                _flushall();
+                gets(s);
+                _flushall();
+                
+                bool band=false;
+                do
+                {
+                    rewind(Turno);
+                    fread(&turno,sizeof(turnos),1,Turno);
+                    while (!feof(Turno))
+                    {
+                        if (strcmp(turno.apeynomM,s)==0)
+                        {
+                            band=true;
+                        }
 
-            fclose(Turno);
-            fclose(fileAux);
-            fclose(EV);
+                        fread(&turno,sizeof(turnos),1,Turno);
+                    }
+
+                    if (r=!1)
+                    {
+                        system("cls");
+                        printf("El apellido y nombre ingresado no se encuentra en la lista\n");
+                        system("pause");
+                    }
+                    
+
+                } while (!band);
+                
+                fileAux=fopen("Tempfile.dat", "w+b");
+                EV=fopen("Evolucion.dat","w+b");
+                
+                rewind(Turno);
+                
+                fread(&turno,sizeof(turnos),1,Turno);
+                while (!feof(Turno))
+                {
+                    if(strcmp(turno.apeynomM,s)==0)
+                    {
+                        fwrite(&turno,sizeof(turnos),1,EV);
+                    }
+                    else
+                    {
+                        fwrite(&turno,sizeof(turnos),1,fileAux);
+                    }
+                    
+                    fread(&turno,sizeof(turnos),1,Turno);
+                }
+
+                    fclose(Turno);
+                    fclose(fileAux);
+                    fclose(EV);
+            }       
+        }
     }
 }
 
