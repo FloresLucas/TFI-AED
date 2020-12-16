@@ -94,6 +94,7 @@ main()
                         printf("Se inicio sesion correctamente\n");
                         system("cls");
                         printf("Bienvenido %s\n",asist.ApeyNom);
+                        printf("\n");
                         system("pause");
                         band=true;
                     }
